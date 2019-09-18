@@ -1,0 +1,58 @@
+/* https://colorhunt.co/palette/15697 */
+
+* {
+  color: white;
+  /* background-color: #88304E */
+}
+
+.red {
+  background-color: #E23E57
+}
+
+.darkred {
+  background-color: #88304E
+}
+
+.purple {
+  background-color: #522546
+}
+
+.darkpurple {
+  background-color: #311D3F
+}
+
+.font-white {
+  color: whitesmoke;
+}
+
+.app {
+  height: 100vh;
+}
+
+.main {
+  height: 100vh;
+  background-color: #88304E
+}
+
+#jumbotron {
+  background-color: #88304E
+}
+
+.title {
+  color: black
+}
+
+.search-bar {
+  width: 50vw;
+  margin-top: 5vh;
+}
+
+.nav-item {
+  color: black;
+  font-size: 1em;
+  margin-right: 1em;
+}
+.nav-item:hover {
+  color: white;
+  text-decoration-line: none;
+}
