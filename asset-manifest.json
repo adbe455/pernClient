@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/pernClient/static/css/main.4d650b70.chunk.css",
-    "main.js": "/pernClient/static/js/main.7926c5a3.chunk.js",
-    "main.js.map": "/pernClient/static/js/main.7926c5a3.chunk.js.map",
+    "main.js": "/pernClient/static/js/main.6cf3a75c.chunk.js",
+    "main.js.map": "/pernClient/static/js/main.6cf3a75c.chunk.js.map",
     "runtime~main.js": "/pernClient/static/js/runtime~main.c1d528c7.js",
     "runtime~main.js.map": "/pernClient/static/js/runtime~main.c1d528c7.js.map",
     "static/css/2.266e55a5.chunk.css": "/pernClient/static/css/2.266e55a5.chunk.css",
     "static/js/2.e1406b8f.chunk.js": "/pernClient/static/js/2.e1406b8f.chunk.js",
     "static/js/2.e1406b8f.chunk.js.map": "/pernClient/static/js/2.e1406b8f.chunk.js.map",
     "index.html": "/pernClient/index.html",
-    "precache-manifest.5c08b0e2d3599f5986b1fede72a26365.js": "/pernClient/precache-manifest.5c08b0e2d3599f5986b1fede72a26365.js",
+    "precache-manifest.ef8469c0cf4e3c56dd08e58cf3cca9af.js": "/pernClient/precache-manifest.ef8469c0cf4e3c56dd08e58cf3cca9af.js",
     "service-worker.js": "/pernClient/service-worker.js",
     "static/css/2.266e55a5.chunk.css.map": "/pernClient/static/css/2.266e55a5.chunk.css.map",
     "static/css/main.4d650b70.chunk.css.map": "/pernClient/static/css/main.4d650b70.chunk.css.map"
