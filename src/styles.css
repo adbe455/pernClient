@@ -2,7 +2,8 @@
 
 * {
   color: white;
-  /* background-color: #88304E */
+  font-family: 'Open Sans', sans-serif;
+
 }
 
 .red {
@@ -25,17 +26,24 @@
   color: whitesmoke;
 }
 
+.font-black {
+  color: black;
+}
+
 .app {
   height: 100vh;
 }
 
 .main {
-  height: 100vh;
-  background-color: #88304E
+  min-height: 100vh;
+  background: url('./assets/vg-wallpaper-dark.jpg') no-repeat center center fixed;
+  background-size: cover;
 }
 
 #jumbotron {
-  background-color: #88304E
+  background-color: transparent;
+  font-family: 'Open Sans', sans-serif;
+  letter-spacing: 0.2em;
 }
 
 .title {
@@ -55,4 +63,58 @@
 .nav-item:hover {
   color: white;
   text-decoration-line: none;
+}
+
+.card {
+  color: blue;
+}
+
+.card-img-top {
+  width: 100%;
+  height: 8vw;
+  object-fit: cover;
+}
+
+.game-name {
+  letter-spacing: 0.10em;
+  font-size: 2.5em;
+}
+
+.game-description {
+  font-weight: 100;
+}
+
+.screenshot {
+  max-width: 30vw;
+  max-height: 30vh;
+  object-fit: contain; 
+}
+
+.gamebox {
+  /* border: solid 1px whitesmoke; */
+  border-radius: 5px;
+  background-color: #88304EBB;
+  padding: 40px;
+  margin-top: 40px;
+}
+
+/* .review-body {
+  background-color: #522546BB;
+  margin: 20px;
+  border-radius: 5px;
+  padding-top: 12px;
+} */
+
+/* .review-header {
+  margin-bottom: 20px;
+} */
+
+.review-box {
+  border: solid 1px whitesmoke;
+  padding: 10px;
+}
+
+.review-subtext {
+  font-size: .85em;
+  padding-right: 5px;
 }

@@ -4,22 +4,27 @@ import { Redirect } from 'react-router-dom';
 
 
 const Login = (props) => {
-    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [hideToggle, setHideToggle] = useState(true);
     const [redirect, setRedirect] = useState(false);
+    const [loginAttempt, setLoginAttempt] = useState(false);
+
+    // const serverUrl = 'http://localhost:3000'
+    const serverUrl = 'https://pernproject.herokuapp.com'
 
     let handleSubmit = (event) => {
         event.preventDefault();
-
-        fetch('http://localhost:3000/user/login', {
+        console.log('server url: ' + serverUrl)
+        
+        fetch(serverUrl + '/user/login', {
             method: 'POST',
             headers: {
                 'Content-Type':'application/json'
             },
             body: JSON.stringify({
                 user: {
-                    username: username,
+                    email: email,
                     password: password
                 }
             })
@@ -27,22 +32,27 @@ const Login = (props) => {
         .then(data => {
             props.tokenHandler(data.sessionToken);
             console.log('Session token: ' + data.sessionToken);
-            setRedirect(true);
+            localStorage.setItem('SessionToken', data.sessionToken)
+            if(data.sessionToken) {
+                setRedirect(true);
+            } else {
+                setLoginAttempt(true);
+            }
         })
     }
 
     return(
         <Form style={{marginTop: '10vh'}} className="mx-auto col-lg-4">
             <FormGroup>
-                <Label for="username">Username</Label>
-                <Input onChange={(e) => setUsername(e.target.value)} />
+                <Label for="email">Email</Label>
+                <Input onChange={(e) => setEmail(e.target.value)} />
             </FormGroup>
             <FormGroup>
                 <Label for="password">Password</Label>
             <InputGroup>
-                <Input onChange={(e) => setPassword(e.target.value)} type={hideToggle ? "password" : ""}/>
+                <Input onKeyPress={e => {if(e.key === 'Enter' && email && password) { handleSubmit(e) }}} onChange={(e) => setPassword(e.target.value)} type={hideToggle ? "password" : ""}/>
                 <InputGroupAddon addonType="append">
-                    <Button onClick={(e) => {e.preventDefault(); setHideToggle(!hideToggle)}}>
+                    <Button style={{backgroundColor: '#88304E'}} onClick={(e) => {e.preventDefault(); setHideToggle(!hideToggle)}}>
                         {hideToggle ? 'Show' : 'Hide'}
                     </Button>
                     {redirect ? <Redirect to='/'/> : null}
@@ -50,8 +60,9 @@ const Login = (props) => {
             </InputGroup>
             </FormGroup>
             <FormGroup className="text-center">
-                <Button onClick={(e) => handleSubmit(e)}>Login</Button>
+                {email && password ? <Button style={{backgroundColor: '#88304E'}} onClick={(e) => handleSubmit(e)}>Login</Button> : null}
             </FormGroup>
+            {loginAttempt ? <p className="text-center">Incorrect login credentials</p> : null}
         </Form>    
     )
 }

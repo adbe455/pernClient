@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import {
+    Button,
     Navbar,
     NavbarBrand,
     Nav,
@@ -7,7 +8,6 @@ import {
     NavLink
 } from 'reactstrap';
 import '../styles.css';
-import Logout from './Logout';
 // import Login from './Login';
 import { Link } from 'react-router-dom'
 
@@ -15,12 +15,12 @@ import { Link } from 'react-router-dom'
 const Header = (props) => {
 
   return (
-    <Navbar className="red" light expand="md">
+    <Navbar sticky={'top'} className="darkred" light expand="md">
       <NavbarBrand href="/">Game Critic</NavbarBrand>
-          {props.token ? 
+        { props.token ? 
           <Nav className="ml-auto" navbar>
             <NavItem>
-              <Logout/>
+              <Link className='nav-item' to='' onClick={() => {props.clearToken()}}>Logout</Link>
             </NavItem>
           </Nav> : 
           <Nav className="ml-auto" navbar>
