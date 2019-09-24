@@ -13,6 +13,8 @@ const Main = () => {
 
     const [token, setToken] = useState(false)
     const [reviewId, setReviewId] = useState(1941)
+    const [firstName, setFirstName ] = useState('');
+    const [lastName, setLastName ] = useState('');
     
     let storeReviewId = (id) => {
         setReviewId(id)
@@ -26,14 +28,22 @@ const Main = () => {
 
     useEffect(() => {
         if (localStorage.getItem('SessionToken')){
-          setToken(localStorage.getItem('SessionToken'));
+            setToken(localStorage.getItem('SessionToken'));
+        }
+
+        if (localStorage.getItem('FirstName')){
+            setFirstName(localStorage.getItem('FirstName'));
+        }
+
+        if (localStorage.getItem('LastName')){
+            setLastName(localStorage.getItem('LastName'));
         }
     }, [])
     
     const updateToken = (newToken) => {
         localStorage.setItem('SessionToken', newToken);
         setToken(newToken);
-        console.log(token);
+        console.log('update token: ', token);
     }
     
     const clearToken = () => {
@@ -47,7 +57,7 @@ const Main = () => {
             <div className='main'>
                 <Router>
                     {console.log('token: ' + token)}
-                    <Header token={token} tokenHandler={storeSessionToken} clearToken={clearToken} />
+                    <Header token={token} tokenHandler={storeSessionToken} clearToken={clearToken} firstName={firstName} lastName={lastName} />
                     <Switch>
                         <Route exact path="/" component={ Splash } />
                         <Route exact path="/login" render={(props) => <Login {...props} tokenHandler={storeSessionToken}/>}/>

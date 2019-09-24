@@ -10,12 +10,12 @@ const Login = (props) => {
     const [redirect, setRedirect] = useState(false);
     const [loginAttempt, setLoginAttempt] = useState(false);
 
-    // const serverUrl = 'http://localhost:3000'
-    const serverUrl = 'https://pernproject.herokuapp.com'
-
+    const serverUrl = 'http://localhost:3000'
+    // const serverUrl = 'https://pernproject.herokuapp.com'
+    
     let handleSubmit = (event) => {
+        console.log('login server url: ' + serverUrl)
         event.preventDefault();
-        console.log('server url: ' + serverUrl)
         
         fetch(serverUrl + '/user/login', {
             method: 'POST',
@@ -31,8 +31,10 @@ const Login = (props) => {
         }).then( res => res.json())
         .then(data => {
             props.tokenHandler(data.sessionToken);
-            console.log('Session token: ' + data.sessionToken);
-            localStorage.setItem('SessionToken', data.sessionToken)
+            console.log('login data: ', data);
+            localStorage.setItem('SessionToken', data.sessionToken);
+            localStorage.setItem('FirstName', data.user.firstname);
+            localStorage.setItem('LastName', data.user.lastname);
             if(data.sessionToken) {
                 setRedirect(true);
             } else {

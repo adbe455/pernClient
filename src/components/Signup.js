@@ -11,11 +11,13 @@ const Signup = (props) => {
     const [hideToggle, setHideToggle] = useState(true);
     const [redirect, setRedirect] = useState(false);
     const [signupAttempt, setSignupAttempt] = useState(false);
+    const [validEmail, setValidEmail] = useState()
 
-    // const serverUrl = 'http://localhost:3000'
-    const serverUrl = 'https://pernproject.herokuapp.com'
-
+    const serverUrl = 'http://localhost:3000'
+    // const serverUrl = 'https://pernproject.herokuapp.com'
+    
     let handleSubmit = (event) => {
+        console.log('signup serverurl: ', serverUrl)
         event.preventDefault();
 
         fetch(serverUrl + '/user/signup', {
@@ -25,8 +27,8 @@ const Signup = (props) => {
             },
             body: JSON.stringify({
                 user: {
-                    firstname: firstName,
-                    lastname: lastName,
+                    firstname: (firstName[0].toUpperCase() + firstName.slice(1)),
+                    lastname: (lastName[0].toUpperCase() + lastName.slice(1)),
                     email: email,
                     password: password
                 }
@@ -36,12 +38,24 @@ const Signup = (props) => {
             props.tokenHandler(data.sessionToken);
             console.log('Session token: ' + data.sessionToken);
             localStorage.setItem('SessionToken', data.sessionToken)
+            localStorage.setItem('FirstName', data.user.firstname);
+            localStorage.setItem('LastName', data.user.lastname);
             if(data.sessionToken){
                 setRedirect(true);
             } else {
                 setSignupAttempt(true);
+                console.log(' else signupattempt: ', signupAttempt);
             }
         })
+        .catch(err => {
+            console.log(err)
+            setSignupAttempt(true);
+            console.log('catch signupattempt: ', signupAttempt);
+        })
+    }
+
+    const validateEmail = (email) => {
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
     }
 
     return(
@@ -56,12 +70,14 @@ const Signup = (props) => {
             </FormGroup>
             <FormGroup>
                 <Label for="email">Email</Label>
-                <Input onChange={(e) => setEmail(e.target.value)} />
+                <Input onChange={(e) => {setValidEmail(validateEmail(e.target.value));setEmail(e.target.value); if(signupAttempt){setSignupAttempt(false)}}} />
+                {signupAttempt ? <p>E-mail is already in use.</p> : null}
+                {validEmail === false ? <p>Please enter a valid e-mail address.</p> : null}
             </FormGroup>
             <FormGroup>
                 <Label for="password">Password</Label>
             <InputGroup>
-                <Input onKeyPress={e => {if(e.key === 'Enter' && firstName && lastName && email && password.length >= 5) { handleSubmit(e) }}} onChange={(e) => setPassword(e.target.value)} type={hideToggle ? "password" : ""}/>
+                <Input onKeyPress={e => {if(e.key === 'Enter' && firstName && lastName && validEmail && password.length >= 5) { handleSubmit(e) }}} onChange={(e) => setPassword(e.target.value)} type={hideToggle ? "password" : ""}/>
                 <InputGroupAddon addonType="append">
                     <Button style={{backgroundColor: '#88304E'}} onClick={(e) => {e.preventDefault(); setHideToggle(!hideToggle)}}>
                         {hideToggle ? 'Show' : 'Hide'}
@@ -72,7 +88,7 @@ const Signup = (props) => {
             {password.length > 0 && password.length < 5 ? <p className='text-center'>Password must be at least 5 characters</p> : null}
             </FormGroup>
             <FormGroup className="text-center">
-                {firstName && lastName && email && password.length >= 5 ? <Button style={{backgroundColor: '#88304E'}} onClick={(e) => handleSubmit(e)}>Sign Up</Button> : null}
+                {firstName && lastName && validEmail && password.length >= 5 ? <Button style={{backgroundColor: '#88304E'}} onClick={(e) => handleSubmit(e)}>Sign Up</Button> : null}
             </FormGroup>
         </Form>    
     )

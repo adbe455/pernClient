@@ -91,9 +91,15 @@
 }
 
 .gamebox {
-  /* border: solid 1px whitesmoke; */
   border-radius: 5px;
-  background-color: #88304EBB;
+  background-color: #88304EDD;
+  padding: 40px;
+  margin-top: 40px;
+}
+
+.box {
+  border-radius: 5px;
+  background-color: #88304EDD;
   padding: 40px;
   margin-top: 40px;
 }
@@ -112,9 +118,32 @@
 .review-box {
   border: solid 1px whitesmoke;
   padding: 10px;
+  margin: 10px;
 }
 
 .review-subtext {
-  font-size: .85em;
+  font-size: .8em;
   padding-right: 5px;
 }
+
+.review-name {
+  margin-left: 20px;
+  /* font-size: 1.2em; */
+}
+
+.wreview-box {
+  margin-top: 5vh;
+}
+
+.wreview-score{
+  max-width: 80px;
+}
+
+.wreview-option {
+  color: black;
+}
+
+.ureview-box {
+  margin-bottom: 5vh;
+}
+
