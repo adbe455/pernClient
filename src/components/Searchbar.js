@@ -9,7 +9,7 @@ import {
     Col
 } from 'reactstrap';
 import SearchResults from './SearchResults';
-import styles from '../styles.css'
+import '../styles.css';
 
 const Searchbar = () => {
 
@@ -43,7 +43,7 @@ const Searchbar = () => {
             .then(data => {
                 console.log(data)
                 setResults(data)
-                if(data.length == 0){
+                if(data.length === 0){
                     setError('no results')
                 }
             })

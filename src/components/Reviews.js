@@ -169,7 +169,7 @@ const Reviews = (props) => {
                                     Platforms: {
                                         results[0].platforms.map(platform =>{
                                             return(
-                                                <p style={{marginLeft:'1em'}}>{platform.abbreviation ? platform.abbreviation : platform.name ? platform.name : null}</p>
+                                                <p key={platform.id} style={{marginLeft:'1em'}}>{platform.abbreviation ? platform.abbreviation : platform.name ? platform.name : null}</p>
                                             )
                                         })
                                     }
@@ -178,7 +178,7 @@ const Reviews = (props) => {
                                     Genres: {
                                         results[0].genres.map(genre =>{
                                             return(
-                                                <p style={{marginLeft:'1em'}}>{genre.name ? genre.name : null}</p>
+                                                <p key={genre.id} style={{marginLeft:'1em'}}>{genre.name ? genre.name : null}</p>
                                             )
                                         })
                                     }
@@ -190,8 +190,13 @@ const Reviews = (props) => {
                                 <p className='game-description'>{results[0].storyline ? results[0].storyline : results[0].summary}</p>
                             </Col>
                         </Row>
+                        <Row style={{marginTop:'2em'}} className='text-center'>
+                            <Col>
+                                {results[0].videos ? <iframe width="560" height="315" src={"https://www.youtube.com/embed/" + results[0].videos[0].video_id } frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> : null}
+                            </Col>
+                        </Row>
                         {props.token ? 
-                            <Row style={{marginTop:'5vh'}} className='text-center'>
+                            <Row style={{marginTop:'2em'}} className='text-center'>
                                 <Col>
                                     <Button onClick={(e) => {fetchReviews(); setShowReviews(!showReviews)}}>
                                         {showReviews ? 'Reviews [-]' : 'Reviews'}
@@ -348,8 +353,8 @@ const Reviews = (props) => {
                         </Form>
                     </ModalBody>
                     <ModalFooter className='red'>
-                        <Button onClick={e => handleSubmit(e, 'PUT')}>Submit</Button>
-                        <Button onClick={() => setEditModal(!editModal)}>Cancel</Button>
+                        <Button id='modalbtn' onClick={e => handleSubmit(e, 'PUT')}>Submit</Button>
+                        <Button id='modalbtn' onClick={() => setEditModal(!editModal)}>Cancel</Button>
                     </ModalFooter>
                 </Modal>
             </div>

@@ -2,10 +2,10 @@ import React from 'react';
 import {
     Card,
     CardImg,
-    CardText,
+    // CardText,
     CardBody,
     CardTitle,
-    CardSubtitle,
+    // CardSubtitle,
     Button
   } from 'reactstrap';
 import { Link } from 'react-router-dom'
@@ -16,7 +16,7 @@ const SearchResults = (props) => {
   return (
     <div className='container'>
           <div className='container text-center'>
-            {props.offset == 0 ? null : <Button onClick={(e) => props.changeOffset(e, 'down')}>Previous</Button>}
+            {props.offset === 0 ? null : <Button onClick={(e) => props.changeOffset(e, 'down')}>Previous</Button>}
             {props.results.length < props.limit ? null : <Button style={{margin: '1em'}} onClick={(e) => props.changeOffset(e, 'up')}>Next</Button>}
             <p>Displaying results {props.offset + 1} - {props.offset + props.results.length}</p>
           </div>
@@ -31,16 +31,13 @@ const SearchResults = (props) => {
                                 } alt="Card image cap" />
                             <CardBody className='red justify-content-center'>
                                 <CardTitle>{result.name}</CardTitle>
-                                {/* <CardSubtitle>Release date: {result.first_release_date}</CardSubtitle> */}
-                                {/* <CardText>{result.storyline ? result.storyline : result.summary ? result.summary : null}</CardText> */}
-                                {/* <Button style={{backgroundColor: '#E23E57'}}>Reviews</Button> */}
                             </CardBody>
                         </Card>
                       </Link>
                     </div>
           )})}
           <div className='container text-center' style={{marginTop:'1em'}}>
-            {props.offset == 0 ? null : <Button onClick={(e) => props.changeOffset(e, 'down')}>Previous</Button>}
+            {props.offset === 0 ? null : <Button onClick={(e) => props.changeOffset(e, 'down')}>Previous</Button>}
             {props.results.length < props.limit ? null : <Button style={{margin: '1em'}} onClick={(e) => props.changeOffset(e, 'up')}>Next</Button>}
             <p>Displaying results {props.offset + 1} - {props.offset + props.results.length}</p>
           </div>

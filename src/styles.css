@@ -173,3 +173,13 @@
   filter: brightness(0.8);
   transition: 150ms ease;
 }
+
+#modalbtn {
+  background-color: rgb(161, 36, 74);
+  border-color: white;
+}
+
+#modalbtn:hover{
+  filter: brightness(0.8);
+  transition: 150ms ease;
+}

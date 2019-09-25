@@ -14,12 +14,6 @@ const Main = () => {
     const [token, setToken] = useState(false);
     const [firstName, setFirstName ] = useState('');
     const [lastName, setLastName ] = useState('');
-    const [reviewId, setReviewId] = useState(1103);
-    
-    let storeReviewId = (id) => {
-        setReviewId(id)
-        console.log('current reviewId: ' + reviewId)
-    }
 
     let storeSessionToken = (token) => {
       setToken(token)
@@ -45,12 +39,6 @@ const Main = () => {
             setLastName(localStorage.getItem('LastName'));
         }
     }, [])
-    
-    const updateToken = (newToken) => {
-        localStorage.setItem('SessionToken', newToken);
-        setToken(newToken);
-        console.log('update token: ', token);
-    }
     
     const clearToken = () => {
         localStorage.clear();
