@@ -16,8 +16,8 @@ const SearchResults = (props) => {
   return (
     <div className='container'>
           <div className='container text-center'>
-            {props.offset == 0 ? null : <Button onClick={(e) => props.changeOffset(e, 'down')}>Previous 50</Button>}
-            {props.results.length < props.limit ? null : <Button style={{margin: '1em'}} onClick={(e) => props.changeOffset(e, 'up')}>Next 50</Button>}
+            {props.offset == 0 ? null : <Button onClick={(e) => props.changeOffset(e, 'down')}>Previous</Button>}
+            {props.results.length < props.limit ? null : <Button style={{margin: '1em'}} onClick={(e) => props.changeOffset(e, 'up')}>Next</Button>}
             <p>Displaying results {props.offset + 1} - {props.offset + props.results.length}</p>
           </div>
         <div className='row'>

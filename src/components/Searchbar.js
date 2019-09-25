@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import {
+    Container,
     InputGroup,
     Input,
     InputGroupAddon,
-    Button
+    Button,
+    Row,
+    Col
 } from 'reactstrap';
 import SearchResults from './SearchResults';
 import styles from '../styles.css'
@@ -71,25 +74,30 @@ const Searchbar = () => {
     }
 
     return(
-        <div>
-            <InputGroup className='search-bar justify-content-center'>
-                <Input onKeyPress={e => {if(e.key === 'Enter') { handleSubmit(e) }}} className='col-4' onChange={(e) => setSearch(e.target.value)} />
-                <InputGroupAddon addonType="append"><Button 
-                    onClick={(e) => handleSubmit(e)}
-
-                >Find game</Button></InputGroupAddon>
-            </InputGroup>
+        <Container>
+            <Row className='search-bar mx-auto'>
+                <Col>
+                    <InputGroup>
+                        <Input onKeyPress={e => {if(e.key === 'Enter') { handleSubmit(e) }}} onChange={(e) => setSearch(e.target.value)} />
+                        <InputGroupAddon addonType="append"><Button onClick={(e) => handleSubmit(e)}>Find game</Button></InputGroupAddon>
+                    </InputGroup>
+                </Col>
+            </Row>
             <br/>
-            {
-                error === 'minimum character length' ? <p className='text-center'>Please enter at least 3 characters.</p>
-                : error === 'no results' ? <p className='text-center'>No results found.</p>
-                : null
-            }
-            {
-                results.length > 0 ? <SearchResults offset={ offset } results={ results } changeOffset={ changeOffset } limit={limit}/>
-                : null
-            }
-        </div>
+            <Row>
+                <Col>
+                    {
+                        error === 'minimum character length' ? <p className='text-center'>Please enter at least 3 characters.</p>
+                        : error === 'no results' ? <p className='text-center'>No results found.</p>
+                        : null
+                    }
+                    {
+                        results.length > 0 ? <SearchResults offset={ offset } results={ results } changeOffset={ changeOffset } limit={limit}/>
+                        : null
+                    }
+                </Col>
+            </Row>
+        </Container>
     )
 }
 
