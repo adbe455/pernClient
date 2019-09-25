@@ -16,12 +16,12 @@ import { Link } from 'react-router-dom'
 const Header = (props) => {
 
   return (
-    <Navbar sticky={'top'} className="red" light expand="md">
+    <Navbar sticky={'top'} style={{borderBottom:'solid 1px white'}} className="red" light expand="md">
       <NavbarBrand tag={Link} to='/' >Critical Hits </NavbarBrand>
         { props.token ? 
           <Nav className="ml-auto" navbar>
             <NavItem>
-              <NavLink>{props.firstName.toUpperCase() + ' ' + props.lastName.toUpperCase()}</NavLink>
+              <NavLink style={{color:'black', marginRight:'10px'}}>{props.firstName.toUpperCase() + ' ' + props.lastName.toUpperCase()}</NavLink>
             </NavItem>
             <NavItem>
               <NavLink tag={Link} to='' onClick={() => {props.clearToken()}}>Logout</NavLink>

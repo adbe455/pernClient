@@ -13,8 +13,8 @@ const Signup = (props) => {
     const [signupAttempt, setSignupAttempt] = useState(false);
     const [validEmail, setValidEmail] = useState()
 
-    const serverUrl = 'http://localhost:3000'
-    // const serverUrl = 'https://pernproject.herokuapp.com'
+    // const serverUrl = 'http://localhost:3000'
+    const serverUrl = 'https://pernproject.herokuapp.com'
     
     let handleSubmit = (event) => {
         console.log('signup serverurl: ', serverUrl)
@@ -37,9 +37,12 @@ const Signup = (props) => {
         .then(data => {
             props.tokenHandler(data.sessionToken);
             console.log('Session token: ' + data.sessionToken);
-            localStorage.setItem('SessionToken', data.sessionToken)
-            localStorage.setItem('FirstName', data.user.firstname);
-            localStorage.setItem('LastName', data.user.lastname);
+            localStorage.setItem('SessionToken', data.sessionToken);
+            if(data.user.firstname && data.user.lastname){
+                localStorage.setItem('FirstName', data.user.firstname);
+                localStorage.setItem('LastName', data.user.lastname)
+                props.storeName(data.user.firstname, data.user.lastname);
+            }
             if(data.sessionToken){
                 setRedirect(true);
             } else {
@@ -79,7 +82,7 @@ const Signup = (props) => {
             <InputGroup>
                 <Input onKeyPress={e => {if(e.key === 'Enter' && firstName && lastName && validEmail && password.length >= 5) { handleSubmit(e) }}} onChange={(e) => setPassword(e.target.value)} type={hideToggle ? "password" : ""}/>
                 <InputGroupAddon addonType="append">
-                    <Button style={{backgroundColor: '#88304E'}} onClick={(e) => {e.preventDefault(); setHideToggle(!hideToggle)}}>
+                    <Button onClick={(e) => {e.preventDefault(); setHideToggle(!hideToggle)}}>
                         {hideToggle ? 'Show' : 'Hide'}
                     </Button>
                     {redirect ? <Redirect to='/'/> : null}
@@ -88,7 +91,7 @@ const Signup = (props) => {
             {password.length > 0 && password.length < 5 ? <p className='text-center'>Password must be at least 5 characters</p> : null}
             </FormGroup>
             <FormGroup className="text-center">
-                {firstName && lastName && validEmail && password.length >= 5 ? <Button style={{backgroundColor: '#88304E'}} onClick={(e) => handleSubmit(e)}>Sign Up</Button> : null}
+                {firstName && lastName && validEmail && password.length >= 5 ? <Button onClick={(e) => handleSubmit(e)}>Sign Up</Button> : null}
             </FormGroup>
         </Form>    
     )

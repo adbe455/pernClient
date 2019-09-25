@@ -10,8 +10,8 @@ const Login = (props) => {
     const [redirect, setRedirect] = useState(false);
     const [loginAttempt, setLoginAttempt] = useState(false);
 
-    const serverUrl = 'http://localhost:3000'
-    // const serverUrl = 'https://pernproject.herokuapp.com'
+    // const serverUrl = 'http://localhost:3000'
+    const serverUrl = 'https://pernproject.herokuapp.com'
     
     let handleSubmit = (event) => {
         console.log('login server url: ' + serverUrl)
@@ -33,8 +33,11 @@ const Login = (props) => {
             props.tokenHandler(data.sessionToken);
             console.log('login data: ', data);
             localStorage.setItem('SessionToken', data.sessionToken);
-            localStorage.setItem('FirstName', data.user.firstname);
-            localStorage.setItem('LastName', data.user.lastname);
+            if(data.user.firstname && data.user.lastname){
+                localStorage.setItem('FirstName', data.user.firstname);
+                localStorage.setItem('LastName', data.user.lastname)
+                props.storeName(data.user.firstname, data.user.lastname);
+            }
             if(data.sessionToken) {
                 setRedirect(true);
             } else {
@@ -54,7 +57,7 @@ const Login = (props) => {
             <InputGroup>
                 <Input onKeyPress={e => {if(e.key === 'Enter' && email && password) { handleSubmit(e) }}} onChange={(e) => setPassword(e.target.value)} type={hideToggle ? "password" : ""}/>
                 <InputGroupAddon addonType="append">
-                    <Button style={{backgroundColor: '#88304E'}} onClick={(e) => {e.preventDefault(); setHideToggle(!hideToggle)}}>
+                    <Button onClick={(e) => {e.preventDefault(); setHideToggle(!hideToggle)}}>
                         {hideToggle ? 'Show' : 'Hide'}
                     </Button>
                     {redirect ? <Redirect to='/'/> : null}
@@ -62,7 +65,7 @@ const Login = (props) => {
             </InputGroup>
             </FormGroup>
             <FormGroup className="text-center">
-                {email && password ? <Button style={{backgroundColor: '#88304E'}} onClick={(e) => handleSubmit(e)}>Login</Button> : null}
+                {email && password ? <Button onClick={(e) => handleSubmit(e)}>Login</Button> : null}
             </FormGroup>
             {loginAttempt ? <p className="text-center">Incorrect login credentials</p> : null}
         </Form>    

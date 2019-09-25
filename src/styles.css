@@ -10,12 +10,20 @@
   background-color: #E23E57
 }
 
+.red-t {
+  background-color: rgba(161, 36, 74, 0.8)
+}
+
+.red2 {
+  background-color: rgb(161, 36, 74)
+}
+
 .red {
-  background-color: rgb(187, 58, 77)
+  background-color: rgb(190, 40, 85)
 }
 
 .darkred {
-  background-color: #88304E
+  background-color: rgb(124, 27, 59)
 }
 
 .purple {
@@ -63,21 +71,8 @@
   margin-top: 5vh;
 }
 
-.nav-item {
-  color: black;
-  font-size: 1em;
-  margin-right: 1em;
-  padding: 10px;
-  /* border: solid 1px whitesmoke; */
-  border-radius: 5px;
-}
-.nav-item:hover {
-  color: white;
-  text-decoration-line: none;
-}
-
-.card {
-  color: blue;
+.search-result:hover {
+  text-decoration: none;
 }
 
 .card-img-top {
@@ -89,47 +84,38 @@
 .game-name {
   letter-spacing: 0.10em;
   font-size: 2.5em;
+  border-bottom: solid 1px white;
 }
 
 .game-description {
   font-weight: 100;
+  margin: 1em;
 }
 
 .screenshot {
   max-width: 30vw;
   max-height: 30vh;
   object-fit: contain; 
+  margin-left: 1em;
+  border-radius: 5px;
 }
 
 .gamebox {
   border-radius: 5px;
-  background-color: #88304EDD;
   padding: 40px;
   margin-top: 40px;
 }
 
 .box {
   border-radius: 5px;
-  background-color: #88304EDD;
   padding: 40px;
   margin-top: 40px;
 }
 
-/* .review-body {
-  background-color: #522546BB;
-  margin: 20px;
-  border-radius: 5px;
-  padding-top: 12px;
-} */
-
-/* .review-header {
-  margin-bottom: 20px;
-} */
-
 .review-box {
-  border: solid 1px whitesmoke;
-  padding: 10px;
-  margin: 10px;
+  padding: 1em;
+  margin: 1em;
+  border-radius: 5px;
 }
 
 .review-subtext {
@@ -138,8 +124,16 @@
 }
 
 .review-name {
-  margin-left: 20px;
-  /* font-size: 1.2em; */
+  margin: 1em;
+  padding-bottom: 1em;
+  padding-left: 1em;
+  border-bottom: solid 1px white;
+  width: 100%;
+  text-align: left;
+}
+
+.review-score, .review-headline, .review-review {
+  margin-left: 1em;
 }
 
 .wreview-box {
@@ -156,4 +150,25 @@
 
 .ureview-box {
   margin-bottom: 5vh;
+  border: solid 2px white;
+}
+
+.card {
+  font-weight: 100;
+}
+
+.card:hover {
+  /* filter: drop-shadow(0.5em 0.5em 0 #E23E57); */
+  filter: brightness(0.8);
+  transition: 150ms ease;
+}
+
+#override .btn {
+  background-color: rgb(161, 36, 74);
+  border-color: white;
+}
+
+#override .btn:hover{
+  filter: brightness(0.8);
+  transition: 150ms ease;
 }

@@ -16,8 +16,8 @@ import {
 import '../styles.css';
 import snespad from '../assets/no-image.png'
 
-const serverUrl = 'http://localhost:3000'
-// const serverUrl = 'https://pernproject.herokuapp.com'
+// const serverUrl = 'http://localhost:3000'
+const serverUrl = 'https://pernproject.herokuapp.com'
 
 
 const Reviews = (props) => {
@@ -41,10 +41,10 @@ const Reviews = (props) => {
     
     const fetchResults = (a) => {
         console.log('review serverurl: ', serverUrl)
-        const url = 'https://cors-anywhere.herokuapp.com/';
-        const url2 = 'https://api-v3.igdb.com/games';
+        const proxy = 'https://cors-anywhere.herokuapp.com/';
+        const url = 'https://api-v3.igdb.com/games';
         
-        fetch(url + url2, {
+        fetch(proxy + url, {
             method: 'POST',
             headers: {
                 'user-key':'cc5441053548ed186c2e6a3add7af2f1',
@@ -52,7 +52,7 @@ const Reviews = (props) => {
             },
             body:`
                 where id=${id};
-                fields artworks.*, storyline, summary, name;
+                fields artworks.*, storyline, summary, name, release_dates.human, genres.name, platforms.*, videos.*;
             `
         })
             .then(res => res.json())
@@ -78,6 +78,7 @@ const Reviews = (props) => {
             .then((reviewData) => {
                 setReviews(reviewData);
                 console.log('reviewData: ', reviewData);
+                console.log('reviews.length ' + reviews.length)
             })
 
             //grab the user's review if it exists
@@ -119,7 +120,7 @@ const Reviews = (props) => {
         .then((res) => res.json())
         .then((data) => {
             console.log(data);
-            setScore();
+            setScore(10);
             setTitle('');
             setBody('');
             setWriteReview(false);
@@ -150,24 +151,49 @@ const Reviews = (props) => {
     
     return(
         <div>
-            {results.length > 0 ? 
+            {results.length > 0 && results ? 
                  <div>
-                    <Container className='gamebox'>
+                    <Container className='gamebox red-t'>
                         <Row className='text-center'>
                             <Col>
                                 <p className='game-name'>{results[0].name}</p>
                             </Col>
                         </Row>
-                        <Row>
-                            <img className='screenshot col-6' alt='screenshot' src={results[0].artworks ? imgPrefix + results[0].artworks[0].image_id + '.jpg' : snespad}/>
+                        <Row className='text-center'>
                             <Col xs='6'>
+                                <img className='screenshot' alt='screenshot' src={results[0].artworks ? imgPrefix + results[0].artworks[0].image_id + '.jpg' : snespad}/>
+                            </Col>
+                            <Col xs='6'>
+                                <Row className='game-description'>Release date: <p style={{marginLeft:'1em'}}>{results[0].release_dates[0].human}</p></Row>
+                                <Row className='game-description'>
+                                    Platforms: {
+                                        results[0].platforms.map(platform =>{
+                                            return(
+                                                <p style={{marginLeft:'1em'}}>{platform.abbreviation ? platform.abbreviation : platform.name ? platform.name : null}</p>
+                                            )
+                                        })
+                                    }
+                                </Row>
+                                <Row className='game-description'>
+                                    Genres: {
+                                        results[0].genres.map(genre =>{
+                                            return(
+                                                <p style={{marginLeft:'1em'}}>{genre.name ? genre.name : null}</p>
+                                            )
+                                        })
+                                    }
+                                </Row>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col>
                                 <p className='game-description'>{results[0].storyline ? results[0].storyline : results[0].summary}</p>
                             </Col>
                         </Row>
                         {props.token ? 
                             <Row style={{marginTop:'5vh'}} className='text-center'>
                                 <Col>
-                                    <Button style={{backgroundColor: '#88304E'}} onClick={(e) => {fetchReviews(); setShowReviews(!showReviews)}}>
+                                    <Button onClick={(e) => {fetchReviews(); setShowReviews(!showReviews)}}>
                                         {showReviews ? 'Reviews [-]' : 'Reviews'}
                                     </Button>
                                 </Col>
@@ -183,7 +209,7 @@ const Reviews = (props) => {
                     </Container>
                     {writeReview ?
                     <div>
-                        <Container className='wreview-box gamebox'>
+                        <Container className='wreview-box gamebox red-t'>
                             <Form onSubmit={e => {handleSubmit(e, 'POST')}}>
                                 <FormGroup>
                                     <Label for="score">Score</Label>
@@ -208,36 +234,37 @@ const Reviews = (props) => {
                                     <Label for="review">Review</Label>
                                     <Input onChange={e => setBody(e.target.value)} type="textarea" name="text" />
                                 </FormGroup>
-                                <Button type='submit' style={{backgroundColor: '#88304E'}}>Submit</Button>
+                                <Button type='submit'>Submit</Button>
+                                <Button onClick={() => setWriteReview(!writeReview)} style={{marginLeft:'20px'}}>Cancel</Button>
                             </Form>
                         </Container>
                         </div>
                     : null}
-                     {showReviews && reviews.length ? 
-                        <Container className='box'>
+                     {showReviews && reviews.length >= 0 && !writeReview ? 
+                        <Container className='box red-t'>
                             {!userReview ? 
                             <Row className='text-center' style={{marginBottom:'5vh'}}>
                                 <Col>
-                                    <Button style={{backgroundColor: '#88304E'}} onClick={() => {setWriteReview(!writeReview)}}>
+                                    <Button onClick={() => {setWriteReview(!writeReview)}}>
                                         Write a Review
                                     </Button>
                                 </Col>
                             </Row>
                             :
-                            <Row className='review-box ureview-box'>
+                            <Row className='review-box ureview-box red'>
                                 <Col className='text-center review-header'>
                                     <Row>
-                                        <Col className='text-left'>
-                                            <p className='review-subtext'> YOUR REVIEW</p>
+                                        <Col className='text-center'>
+                                            <p className='review-subtext red2'> YOUR REVIEW</p>
                                         </Col>
                                         <Col className='text-right'>
-                                            <Button onClick={() => setEditModal(!editModal)} style={{backgroundColor: '#88304E', marginRight:'20px'}}>Edit</Button>
-                                            <Button style={{backgroundColor: '#88304E', marginRight:'20px'}} onClick={e => deleteReview(e)}>Delete</Button>
+                                            <Button onClick={() => setEditModal(!editModal)} style={{marginRight:'1em'}}>Edit</Button>
+                                            <Button style={{marginRight:'1em'}} onClick={e => deleteReview(e)}>Delete</Button>
                                         </Col>
                                     </Row>
                                     <br/>
                                     <Row>
-                                        <p className='review-name'>{userReview.firstname + ' ' + userReview.lastname}</p>
+                                        <p className='review-name'>{userReview.firstname + ' ' + userReview.lastname[0]}.</p>
                                     </Row>
                                     <Row>
                                         <p className='review-subtext review-score'>Score:</p><p> {userReview.score + '/10'}</p>
@@ -254,20 +281,20 @@ const Reviews = (props) => {
                         {showReviews && reviews.length > 0 ? 
                             <div>
                                 <Col className='text-center'>
-                                    <p>Average score: {(reviews.reduce((a,b) => a + b.score, 0) / reviews.length).toFixed(2)}/10</p>
+                                    <p>Average Review Score: {(reviews.reduce((a,b) => a + b.score, 0) / reviews.length).toFixed(1)}/10</p>
                                 </Col>
                                 <br/>
                             {reviews.map(review => {
                                 return (
-                                <Row className='review-box' key={review.id}>
-                                    <Col className='text-center review-header'>
+                                <Row key={review.id}>
+                                    <Col className='review-box text-center red'>
                                         <Row>
-                                            <p className='review-name'>{review.firstname + ' ' + review.lastname}</p>
+                                            <p className='review-name'>{review.firstname + ' ' + review.lastname[0]}.</p>
                                         </Row>
                                         <Row>
                                             <p className='review-subtext review-score'>Score:</p><p> {review.score + '/10'}</p>
                                         </Row>
-                                        <Row className='text-center'>
+                                        <Row>
                                             <p className='review-subtext review-headline'>Headline:</p><p>{`"${review.title}"`}</p>
                                         </Row>
                                         <Row>
@@ -277,7 +304,7 @@ const Reviews = (props) => {
                                 </Row>
                             )})}
                             </div>
-                        : showReviews && reviews.length === 0 ? 
+                        : showReviews && reviews.length === 0 && !writeReview ? 
                             <Row className='text-center'>
                                 <Col>
                                     <p>There are no reviews yet! Be the first!</p>
@@ -293,7 +320,7 @@ const Reviews = (props) => {
             <div>
                 <Modal isOpen={editModal}>
                     <ModalHeader className='red'>Edit Review</ModalHeader>
-                    <ModalBody className='darkred'>
+                    <ModalBody className='red2'>
                         <Form>
                             <FormGroup>
                                 <Label for="score">Score</Label>
@@ -321,9 +348,9 @@ const Reviews = (props) => {
                         </Form>
                     </ModalBody>
                     <ModalFooter className='red'>
-                        <Button onClick={e => handleSubmit(e, 'PUT')} style={{backgroundColor: '#E23E57'}}>Submit</Button>
+                        <Button onClick={e => handleSubmit(e, 'PUT')}>Submit</Button>
                         {/* <Button color="primary" onClick={editModal}>Submit</Button>{' '} */}
-                        <Button className='darkred' onClick={() => setEditModal(!editModal)}>Cancel</Button>
+                        <Button onClick={() => setEditModal(!editModal)}>Cancel</Button>
                     </ModalFooter>
                 </Modal>
             </div>

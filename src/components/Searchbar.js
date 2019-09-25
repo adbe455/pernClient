@@ -19,10 +19,10 @@ const Searchbar = () => {
 
 
     const fetchResults = (a) => {
-        const url = 'https://cors-anywhere.herokuapp.com/';
-        const url2 = 'https://api-v3.igdb.com/games';
+        const proxy = 'https://cors-anywhere.herokuapp.com/';
+        const url = 'https://api-v3.igdb.com/games';
 
-        fetch(url + url2, {
+        fetch(proxy + url, {
             method: 'POST',
             headers: {
                 'user-key':'cc5441053548ed186c2e6a3add7af2f1',
@@ -75,7 +75,6 @@ const Searchbar = () => {
             <InputGroup className='search-bar justify-content-center'>
                 <Input onKeyPress={e => {if(e.key === 'Enter') { handleSubmit(e) }}} className='col-4' onChange={(e) => setSearch(e.target.value)} />
                 <InputGroupAddon addonType="append"><Button 
-                    style={{backgroundColor: '#88304E'}} 
                     onClick={(e) => handleSubmit(e)}
 
                 >Find game</Button></InputGroupAddon>

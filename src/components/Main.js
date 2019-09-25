@@ -11,10 +11,10 @@ import Reviews from './Reviews';
 
 const Main = () => {
 
-    const [token, setToken] = useState(false)
-    const [reviewId, setReviewId] = useState(1941)
+    const [token, setToken] = useState(false);
     const [firstName, setFirstName ] = useState('');
     const [lastName, setLastName ] = useState('');
+    const [reviewId, setReviewId] = useState(1103);
     
     let storeReviewId = (id) => {
         setReviewId(id)
@@ -24,6 +24,12 @@ const Main = () => {
     let storeSessionToken = (token) => {
       setToken(token)
       console.log('storesessiontoken: ' + token)
+    }
+
+    let storeName = (first, last) => {
+        setFirstName(first);
+        setLastName(last);
+        console.log('Name: ', first, last)
     }
 
     useEffect(() => {
@@ -49,19 +55,21 @@ const Main = () => {
     const clearToken = () => {
         localStorage.clear();
         setToken('');
+        setFirstName('');
+        setLastName('');
     }
 
 
     return(
         <React.Fragment>
-            <div className='main'>
+            <div id='override' className='main'>
                 <Router>
                     {console.log('token: ' + token)}
                     <Header token={token} tokenHandler={storeSessionToken} clearToken={clearToken} firstName={firstName} lastName={lastName} />
                     <Switch>
                         <Route exact path="/" component={ Splash } />
-                        <Route exact path="/login" render={(props) => <Login {...props} tokenHandler={storeSessionToken}/>}/>
-                        <Route exact path="/signup" render={(props) => <Signup {...props} tokenHandler={storeSessionToken}/>} />
+                        <Route exact path="/login" render={(props) => <Login {...props} tokenHandler={storeSessionToken} storeName={storeName}/>}/>
+                        <Route exact path="/signup" render={(props) => <Signup {...props} tokenHandler={storeSessionToken} storeName={storeName}/>} />
                         <Route exact path="/reviews/:id" render={(props) => <Reviews {...props} token={token}/>} />
                     </Switch>
                 </Router>
