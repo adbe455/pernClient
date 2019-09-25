@@ -6,8 +6,12 @@
 
 }
 
-.red {
+.lightred {
   background-color: #E23E57
+}
+
+.red {
+  background-color: rgb(187, 58, 77)
 }
 
 .darkred {
@@ -40,6 +44,10 @@
   background-size: cover;
 }
 
+.button {
+  background-color: rgb(187, 58, 77)
+}
+
 #jumbotron {
   background-color: transparent;
   font-family: 'Open Sans', sans-serif;
@@ -59,6 +67,9 @@
   color: black;
   font-size: 1em;
   margin-right: 1em;
+  padding: 10px;
+  /* border: solid 1px whitesmoke; */
+  border-radius: 5px;
 }
 .nav-item:hover {
   color: white;
@@ -146,4 +157,3 @@
 .ureview-box {
   margin-bottom: 5vh;
 }
-

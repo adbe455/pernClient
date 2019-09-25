@@ -7,7 +7,11 @@ import {
     Form,
     FormGroup,
     Label,
-    Input
+    Input,
+    Modal,
+    ModalHeader,
+    ModalBody,
+    ModalFooter
   } from 'reactstrap';
 import '../styles.css';
 import snespad from '../assets/no-image.png'
@@ -28,7 +32,9 @@ const Reviews = (props) => {
     const [ title, setTitle ] = useState('');
     const [ body, setBody ] = useState('');
 
-    const [ userReview, setUserReview ] = useState(false)
+    const [ userReview, setUserReview ] = useState(false);
+
+    const [ editModal, setEditModal ] = useState(false);
 
     const imgPrefix = 'https://images.igdb.com/igdb/image/upload/t_screenshot_med/';
     const id = window.location.href.split('reviews/')[1];
@@ -91,13 +97,12 @@ const Reviews = (props) => {
         }
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = (e, method) => {
         e.preventDefault();
-
-        console.log(id, score, title, body)
+        console.log('handleSubmit: ', id, score, title, body)
 
         fetch(serverUrl + '/review/', {
-            method: 'POST', 
+            method: method, 
             body: JSON.stringify({
                 review: {
                     gameid: id,
@@ -118,7 +123,7 @@ const Reviews = (props) => {
             setTitle('');
             setBody('');
             setWriteReview(false);
-            // setShowReviews(true);
+            setEditModal(false);
             fetchReviews(true);
         })
       }
@@ -179,7 +184,7 @@ const Reviews = (props) => {
                     {writeReview ?
                     <div>
                         <Container className='wreview-box gamebox'>
-                            <Form onSubmit={handleSubmit}>
+                            <Form onSubmit={e => {handleSubmit(e, 'POST')}}>
                                 <FormGroup>
                                     <Label for="score">Score</Label>
                                     <Input onChange={e => setScore(e.target.value)} className='wreview-score' type="select" name="score">
@@ -213,7 +218,7 @@ const Reviews = (props) => {
                             {!userReview ? 
                             <Row className='text-center' style={{marginBottom:'5vh'}}>
                                 <Col>
-                                    <Button style={{backgroundColor: '#88304E'}} onClick={(e) => {setWriteReview(!writeReview)}}>
+                                    <Button style={{backgroundColor: '#88304E'}} onClick={() => {setWriteReview(!writeReview)}}>
                                         Write a Review
                                     </Button>
                                 </Col>
@@ -226,7 +231,7 @@ const Reviews = (props) => {
                                             <p className='review-subtext'> YOUR REVIEW</p>
                                         </Col>
                                         <Col className='text-right'>
-                                            <Button style={{backgroundColor: '#88304E', marginRight:'20px'}}>Edit</Button>
+                                            <Button onClick={() => setEditModal(!editModal)} style={{backgroundColor: '#88304E', marginRight:'20px'}}>Edit</Button>
                                             <Button style={{backgroundColor: '#88304E', marginRight:'20px'}} onClick={e => deleteReview(e)}>Delete</Button>
                                         </Col>
                                     </Row>
@@ -280,10 +285,48 @@ const Reviews = (props) => {
                             </Row>
                         : null}
                     </Container> : null }
+                    
                  </div>
             : null }
             <br/>
             <br/>
+            <div>
+                <Modal isOpen={editModal}>
+                    <ModalHeader className='red'>Edit Review</ModalHeader>
+                    <ModalBody className='darkred'>
+                        <Form>
+                            <FormGroup>
+                                <Label for="score">Score</Label>
+                                <Input onChange={e => setScore(e.target.value)} className='wreview-score' type="select" name="score">
+                                    <option className='wreview-option'>10</option>
+                                    <option className='wreview-option'>9</option>
+                                    <option className='wreview-option'>8</option>
+                                    <option className='wreview-option'>7</option>
+                                    <option className='wreview-option'>6</option>
+                                    <option className='wreview-option'>5</option>
+                                    <option className='wreview-option'>4</option>
+                                    <option className='wreview-option'>3</option>
+                                    <option className='wreview-option'>2</option>
+                                    <option className='wreview-option'>1</option>
+                                </Input>
+                            </FormGroup>
+                            <FormGroup>
+                                <Label for="headline">Headline</Label>
+                                <Input onChange={e => setTitle(e.target.value)} type="headline" name="headline" />
+                            </FormGroup>
+                            <FormGroup>
+                                <Label for="review">Review</Label>
+                                <Input onChange={e => setBody(e.target.value)} type="textarea" name="text" />
+                            </FormGroup>
+                        </Form>
+                    </ModalBody>
+                    <ModalFooter className='red'>
+                        <Button onClick={e => handleSubmit(e, 'PUT')} style={{backgroundColor: '#E23E57'}}>Submit</Button>
+                        {/* <Button color="primary" onClick={editModal}>Submit</Button>{' '} */}
+                        <Button className='darkred' onClick={() => setEditModal(!editModal)}>Cancel</Button>
+                    </ModalFooter>
+                </Modal>
+            </div>
         </div>
     )
 }

@@ -8,31 +8,31 @@ import {
     NavLink
 } from 'reactstrap';
 import '../styles.css';
-// import Login from './Login';
 import { Link } from 'react-router-dom'
-import { userInfo } from 'os';
-import { stringify } from 'querystring';
+// import Login from './Login';
+// import { userInfo } from 'os';
+// import { stringify } from 'querystring';
 
 const Header = (props) => {
 
   return (
-    <Navbar sticky={'top'} className="darkred" light expand="md">
-      <NavbarBrand href="/">Critical Hits </NavbarBrand>
+    <Navbar sticky={'top'} className="red" light expand="md">
+      <NavbarBrand tag={Link} to='/' >Critical Hits </NavbarBrand>
         { props.token ? 
           <Nav className="ml-auto" navbar>
             <NavItem>
-              <p style={{color:'black', marginRight:'20px'}}>{props.firstName.toUpperCase() + ' ' + props.lastName.toUpperCase()}</p>
+              <NavLink>{props.firstName.toUpperCase() + ' ' + props.lastName.toUpperCase()}</NavLink>
             </NavItem>
             <NavItem>
-              <Link className='nav-item' to='' onClick={() => {props.clearToken()}}>Logout</Link>
+              <NavLink tag={Link} to='' onClick={() => {props.clearToken()}}>Logout</NavLink>
             </NavItem>
           </Nav> : 
           <Nav className="ml-auto" navbar>
             <NavItem>
-              <Link to="/login" className="nav-item">Log In</Link>
+              <NavLink tag={Link} to="/login">Log In</NavLink>
             </NavItem>
             <NavItem>
-              <Link to="/signup" className="nav-item" >Sign Up</Link>
+              <NavLink tag={Link} to="/signup">Sign Up</NavLink>
             </NavItem>
           </Nav>}
     </Navbar>
