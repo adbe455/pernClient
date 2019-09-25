@@ -47,7 +47,7 @@ const Login = (props) => {
     }
 
     return(
-        <Form style={{marginTop: '10vh'}} className="mx-auto col-lg-4">
+        <Form style={{marginTop: '10vh'}} className="mx-auto col-8 col-sm-6 col-lg-4">
             <FormGroup>
                 <Label for="email">Email</Label>
                 <Input onChange={(e) => setEmail(e.target.value)} />

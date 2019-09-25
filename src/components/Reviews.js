@@ -349,7 +349,6 @@ const Reviews = (props) => {
                     </ModalBody>
                     <ModalFooter className='red'>
                         <Button onClick={e => handleSubmit(e, 'PUT')}>Submit</Button>
-                        {/* <Button color="primary" onClick={editModal}>Submit</Button>{' '} */}
                         <Button onClick={() => setEditModal(!editModal)}>Cancel</Button>
                     </ModalFooter>
                 </Modal>
