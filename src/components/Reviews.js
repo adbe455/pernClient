@@ -47,7 +47,8 @@ const Reviews = (props) => {
         fetch(proxy + url, {
             method: 'POST',
             headers: {
-                'user-key':'cc5441053548ed186c2e6a3add7af2f1',
+                // 'user-key':'cc5441053548ed186c2e6a3add7af2f1', my key
+                'user-hey':'5a82182a64789d3546faae4b10160803',
                 'Accept':'application/json'
             },
             body:`
@@ -71,8 +72,8 @@ const Reviews = (props) => {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': props.token
-                }
+                    'Authorization': props.token // this sets the Authorization header for the fetch as the token prop
+                }                                // the prop was originally from localstorage and then set as a useState in Main.js then passed into here as a prop
             }) 
             .then( (res) => res.json())
             .then((reviewData) => {
@@ -176,10 +177,10 @@ const Reviews = (props) => {
                                 </Row>
                                 <Row className='game-description'>
                                     Genres: {
-                                        results[0].genres.map(genre =>{
+                                        results[0].genres.map(genre =>{ // this maps out every genre object inside of the first result
                                             return(
                                                 <p key={genre.id} style={{marginLeft:'1em'}}>{genre.name ? genre.name : null}</p>
-                                            )
+                                            ) // every genre name that is found inside of a genre will be displayed on the page if it exists
                                         })
                                     }
                                 </Row>
@@ -195,7 +196,8 @@ const Reviews = (props) => {
                                 {results[0].videos ? <iframe width="560" height="315" src={"https://www.youtube.com/embed/" + results[0].videos[0].video_id } frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> : null}
                             </Col>
                         </Row>
-                        {props.token ? 
+                        {props.token ?  // this prop originally comes from localstorage; it is stored in a useState in Main.js and then passed in here
+                                        // if the user is logged in, display the review section, otherwise tell them they need to be logged in
                             <Row style={{marginTop:'2em'}} className='text-center'>
                                 <Col>
                                     <Button onClick={(e) => {fetchReviews(); setShowReviews(!showReviews)}}>

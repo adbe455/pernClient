@@ -8,9 +8,6 @@ import {
 } from 'reactstrap';
 import '../styles.css';
 import { Link } from 'react-router-dom'
-// import Login from './Login';
-// import { userInfo } from 'os';
-// import { stringify } from 'querystring';
 
 const Header = (props) => {
 
@@ -20,8 +17,10 @@ const Header = (props) => {
         { props.token ? 
           <Nav className="ml-auto" navbar>
             <NavItem>
+              {/* the props below originate from localstorage, they are set in a useState in Main.js and then passed in here
+              this displays the firstName and lastName on the right side of the navbar in uppercase letters if they are logged in*/}
               <NavLink style={{color:'black', marginRight:'10px'}}>{props.firstName.toUpperCase() + ' ' + props.lastName.toUpperCase()}</NavLink>
-            </NavItem>
+            </NavItem> {}
             <NavItem>
               <NavLink tag={Link} to='' onClick={() => {props.clearToken()}}>Logout</NavLink>
             </NavItem>
