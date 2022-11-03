@@ -20,17 +20,35 @@ const Searchbar = () => {
 
     const limit = 48;
 
+    const fetchIgdbToken = () => {
+        const url = 'https://id.twitch.tv/oauth2/token?client_id=dwdaqgesynudsgg0n63ypgb0or2bjl&client_secret=wxa2j8q42apb0lw3w8ir5z79upls8e&grant_type=client_credentials'
+        fetch(url, {
+            method: 'POST',
+            headers: { 'Accept':'*/*' },
+            body: ''
+        })
+        .subscribe(data => {
+            localStorage.setItem('igdb', JSON.stringify({ token: data }));
+        })
+    }
+
+    useEffect(() => {
+        console.log('Checking for IGDB token');
+        if(localStorage.getItem('igdb') == null) {
+            fetchIgdbToken()
+            console.log('Attempting to retrieve IGDB token');
+        }
+    }, []);
 
     const fetchResults = (a) => {
-        const proxy = 'https://cors-anywhere.herokuapp.com/';
-        const url = 'https://api-v3.igdb.com/games';
+        const proxy = 'https://corsanywhereapp.herokuapp.com/';
+        const url = 'https://api.igdb.com/v4/games/';
 
         fetch(proxy + url, {
             method: 'POST',
             headers: {
-                // 'user-key':'cc5441053548ed186c2e6a3add7af2f1', my key
-                'user-hey':'5a82182a64789d3546faae4b10160803',
-                'Accept':'application/json'
+                'Client-ID': 'dwdaqgesynudsgg0n63ypgb0or2bjl',
+                'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('igdb')).token.access_token,
             },
             body:`
                 search "${search}";
