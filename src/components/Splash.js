@@ -6,7 +6,7 @@ import {
 import '../styles.css';
 import Searchbar from './Searchbar'
 
-const Splash = () => {
+const Splash = (props) => {
     return(
         <div>
             <Jumbotron id='jumbotron' fluid>
@@ -15,7 +15,7 @@ const Splash = () => {
                     <p className="lead d-flex justify-content-center">Community reviews and info on your favorite games</p>
                 </Container>
             </Jumbotron>
-            <Searchbar/>
+            <Searchbar igdbToken={props.igdbToken}/>
         </div>
     )
 }

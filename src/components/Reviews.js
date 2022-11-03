@@ -39,17 +39,16 @@ const Reviews = (props) => {
     const imgPrefix = 'https://images.igdb.com/igdb/image/upload/t_screenshot_med/';
     const id = window.location.href.split('reviews/')[1];
     
-    const fetchResults = (a) => {
+    const fetchResults = () => {
         console.log('review serverurl: ', serverUrl)
-        const proxy = 'https://cors-anywhere.herokuapp.com/';
-        const url = 'https://api-v3.igdb.com/games';
+        const proxy = 'https://corsanywhereapp.herokuapp.com/';
+        const url = 'https://api.igdb.com/v4/games/';
         
         fetch(proxy + url, {
             method: 'POST',
             headers: {
-                // 'user-key':'cc5441053548ed186c2e6a3add7af2f1', my key
-                'user-hey':'5a82182a64789d3546faae4b10160803',
-                'Accept':'application/json'
+                'Client-ID': 'dwdaqgesynudsgg0n63ypgb0or2bjl',
+                'Authorization': 'Bearer ' + props.igdbToken,
             },
             body:`
                 where id=${id};
@@ -59,7 +58,8 @@ const Reviews = (props) => {
             .then(res => res.json())
             .then(data => {
                 console.log('fetched: ', data)
-                setResults(data);                
+                setResults(data);   
+                console.log('Bearer ' + props.igdbToken);             
             })
             .catch(err => console.log(err));
     }

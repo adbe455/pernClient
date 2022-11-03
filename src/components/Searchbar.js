@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     Container,
     InputGroup,
@@ -11,7 +11,7 @@ import {
 import SearchResults from './SearchResults';
 import '../styles.css';
 
-const Searchbar = () => {
+const Searchbar = (props) => {
 
     const [ search, setSearch ] = useState('');
     const [ offset, setOffset ] = useState(0);
@@ -20,35 +20,39 @@ const Searchbar = () => {
 
     const limit = 48;
 
-    const fetchIgdbToken = () => {
-        const url = 'https://id.twitch.tv/oauth2/token?client_id=dwdaqgesynudsgg0n63ypgb0or2bjl&client_secret=wxa2j8q42apb0lw3w8ir5z79upls8e&grant_type=client_credentials'
-        fetch(url, {
-            method: 'POST',
-            headers: { 'Accept':'*/*' },
-            body: ''
-        })
-        .subscribe(data => {
-            localStorage.setItem('igdb', JSON.stringify({ token: data }));
-        })
-    }
+    // const fetchIgdbToken = () => {
+    //     const url = 'https://id.twitch.tv/oauth2/token?client_id=dwdaqgesynudsgg0n63ypgb0or2bjl&client_secret=wxa2j8q42apb0lw3w8ir5z79upls8e&grant_type=client_credentials';
+    //     fetch(url, {
+    //         method: 'POST',
+    //         headers: { 'Accept':'*/*' },
+    //         body: ''
+    //     })
+    //     .then(res => res.json())
+    //     .then(data => {
+    //         localStorage.setItem('igdb', data);
+    //         console.log(localStorage.getItem('idgb'));
+    //     })
+    //     .catch(err => console.log(err));
+    // }
 
-    useEffect(() => {
-        console.log('Checking for IGDB token');
-        if(localStorage.getItem('igdb') == null) {
-            fetchIgdbToken()
-            console.log('Attempting to retrieve IGDB token');
-        }
-    }, []);
+    // useEffect(() => {
+    //     console.log('Checking for IGDB token');
+    //     if(!localStorage.getItem('igdb').access_token) {
+    //         fetchIgdbToken();
+    //         console.log('Attempting to retrieve IGDB token');
+    //     }
+    // }, []);
 
     const fetchResults = (a) => {
         const proxy = 'https://corsanywhereapp.herokuapp.com/';
         const url = 'https://api.igdb.com/v4/games/';
+        console.log('Bearer ' + props.igdbToken);
 
         fetch(proxy + url, {
             method: 'POST',
             headers: {
                 'Client-ID': 'dwdaqgesynudsgg0n63ypgb0or2bjl',
-                'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('igdb')).token.access_token,
+                'Authorization': 'Bearer ' + props.igdbToken,
             },
             body:`
                 search "${search}";
